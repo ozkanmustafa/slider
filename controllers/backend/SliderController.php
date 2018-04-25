@@ -13,6 +13,7 @@ use yii\web\UnauthorizedHttpException;
 use yii\web\Session;
 use yii\web\UploadedFile;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 /**
  * SliderController implements the CRUD actions for Slider model.
  */
@@ -43,9 +44,19 @@ class SliderController extends DefaultController
     }
     public function init(){
     	parent::init();
-    
     }
 
+    public function actionSlider(){
+        $provider = new ActiveDataProvider([
+            'query' => Slider::find(),
+            'pagination' => [
+                'pagesize' => 2,
+            ],
+        ]);
+        return $this->render('_slider', [
+            'dataProvider' => $provider,
+        ]);
+    }
     public function actionIndex()
     {
         return $this->actionManage();

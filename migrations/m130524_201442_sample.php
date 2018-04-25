@@ -13,40 +13,17 @@ class m130524_201442_sample extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%samples}}', [
+        $this->createTable('{{%slider}}', [
             'id' => $this->primaryKey(),
             'title' => $this->string(200)->notNull(),
-			'description' => $this->text()->notNull(),
-            'picture' => $this->text(),
+            'description' => $this->text()->notNull(),
+            'date' => $this->date()->notNull()
         ], $tableOptions);
-
-        $this->createTable('{{%sample_data}}', [
-            'id' => $this->primaryKey(),
-            'name' => $this->string(255)->notNull(),
-            'sample_id' => $this->integer(11)->notNull(),
-        ], $tableOptions);
-
-        $this->createIndex(
-            'idx_sample_data_sample_id-1',
-            'sample_data',
-            'sample_id'
-        );
-
-        $this->addForeignKey(
-          'fk_sample_data_sample_id-1',
-          'sample_data',
-          'sample_id',
-          'samples',
-          'id'
-        );
 
     }
 
     public function down()
     {
-        $this->dropForeignKey('fk_sample_data_sample_id-1','sample_data');
-        $this->dropIndex('idx_sample_data_sample_id-1','sample_data');
-        $this->dropTable('{{%sample_data}}');
-        $this->dropTable('{{%samples}}');
+        
     }
 }

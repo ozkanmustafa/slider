@@ -1,15 +1,15 @@
 <?php
 
-namespace kouosl\sample\models;
+namespace kouosl\slider\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * SampleSearch represents the model behind the search form about `app\modules\sample\models\Sample`.
+ * SliderSearch represents the model behind the search form about `app\modules\slider\models\Slider`.
  */
-class SamplesSearch extends Samples
+class SliderSearch extends Slider
 {
     /**
      * @inheritdoc
@@ -40,7 +40,7 @@ class SamplesSearch extends Samples
      */
     public function search($params)
     {
-        $query = Samples::find();
+        $query = slider::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

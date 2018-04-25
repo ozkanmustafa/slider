@@ -1,15 +1,55 @@
 <?php
-/* @var $this yii\web\View */
-$this->title = 'WYP Sample Application';
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use nex\datepicker\DatePicker;
 ?>
-<div class="site-index">
+<?= DatePicker::widget([
+    'model' => $model,
+    'attribute' => 'attrName',
+    'language' => 'ru',
+    'size' => 'lg',
+    'readonly' => true,
+    'placeholder' => 'Choose date',
+    'clientOptions' => [
+        'format' => 'L',
+        'minDate' => '2015-08-10',
+        'maxDate' => '2015-09-10',
+    ],
+    'clientEvents' => [
+        'dp.show' => new \yii\web\JsExpression("function () { console.log('It works!'); }"),
+    ],
+]); ?>
 
-    <div class="jumbotron">
-        <h1>Kou Osl Yii2 App - Frontend</h1>
+<? $this->title = 'WYP Sample Application';
 
-        <p class="lead">Örnek uygulamayı başarılı bir şekilde çalıştırdınız.</p>
+DatePicker::widget([
+	'name' => 'check_issue_date', 
+	'value' => date('d-M-Y', strtotime('+2 days')),
+	'options' => ['placeholder' => 'Select issue date ...'],
+	'pluginOptions' => [
+		'format' => 'dd-M-yyyy',
+		'todayHighlight' => true
+	]
+]);
 
-        <p><a class="btn btn-lg btn-success" href="#">Modüller ve konfürgasyon!</a></p>
+$form = ActiveForm::begin([
+    'id' => 'login-form',
+    'options' => ['class' => 'form-horizontal'],
+]) ?>
+    <?= $form->field($slider, 'title') ?>
+    <?= $form->field($slider, 'date')->widget(
+    DatePicker::className(), [
+        'addon' => false,
+        'size' => 'sm',
+        'clientOptions' => [
+            'format' => 'L LT',
+            'stepping' => 30,
+        ],
+    ]);?>
+
+    <div class="form-group">
+        <div class="col-lg-offset-1 col-lg-11">
+            <?= Html::submitButton('Login', ['class' => 'btn btn-primary']) ?>
+        </div>
     </div>
-
-</div>
+<?php ActiveForm::end() ?>

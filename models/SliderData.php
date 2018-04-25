@@ -1,26 +1,26 @@
 <?php
 
-namespace kouosl\sample\models;
+namespace kouosl\slider\models;
 
 use Yii;
 
 /**
- * This is the model class for table "sample_data".
+ * This is the model class for table "slider_data".
  *
  * @property integer $id
  * @property string $name
- * @property integer $sample_id
+ * @property integer $slider_id
  *
- * @property Samples $sample
+ * @property Slider $slider
  */
-class SampleData extends \yii\db\ActiveRecord
+class SliderData extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'sample_data';
+        return 'slider_data';
     }
 
     /**
@@ -29,10 +29,10 @@ class SampleData extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'sample_id'], 'required'],
-            [['sample_id'], 'integer'],
+            [['name', 'slider_id'], 'required'],
+            [['slider_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['sample_id'], 'exist', 'skipOnError' => true, 'targetClass' => Samples::className(), 'targetAttribute' => ['sample_id' => 'id']],
+            [['slider_id'], 'exist', 'skipOnError' => true, 'targetClass' => Slider::className(), 'targetAttribute' => ['slider_id' => 'id']],
         ];
     }
 
@@ -44,15 +44,15 @@ class SampleData extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'sample_id' => 'Sample ID',
+            'slider_id' => 'Slider ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSample()
+    public function getSlider()
     {
-        return $this->hasOne(Samples::className(), ['id' => 'sample_id']);
+        return $this->hasOne(Slider::className(), ['id' => 'slider_id']);
     }
 }

@@ -7,16 +7,13 @@ use Yii;
 /**
  * This is the model class for table "slider".
  *
- * @property integer $id
+ * @property int $id
  * @property string $title
  * @property string $description
- * @property string $picture
- *
- * @property data[] $data
+ * @property string $date
  */
 class Slider extends \yii\db\ActiveRecord
 {
-
     /**
      * @inheritdoc
      */
@@ -31,9 +28,11 @@ class Slider extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description'], 'required'],
-            [['description', 'picture'], 'string'],
-            [['title'], 'string', 'max' => 200],
+            [['id', 'title', 'description', 'date'], 'required'],
+            [['id'], 'integer'],
+            [['title', 'description'], 'string'],
+            [['date'], 'safe'],
+            [['id'], 'unique'],
         ];
     }
 
@@ -46,19 +45,7 @@ class Slider extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Title',
             'description' => 'Description',
-            'picture' => 'Picture',
+            'date' => 'Date',
         ];
-    }
-
-    public function getImagePath(){
-        return sprintf("%s/slider/%s",Yii::getAlias ( '@data' ),$this->picture);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getData()
-    {
-        return $this->hasMany(SliderData::className(), ['slider_id' => 'id']);
     }
 }
