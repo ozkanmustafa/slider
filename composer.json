@@ -15,7 +15,7 @@
             "kouosl\\slider\\": ""
         }
     },
-    "require": {
-        "nex/yii2-datepicker": "dev-master"
-    }
+	"require": {
+		"powerkernel/yii2-fineuploader": "*"
+	}
 }

@@ -4,17 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model kouosl\slider\models\Slider */
+/* @var $model kouosl\slider\models\Slide */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="slider-form">
+<div class="slide-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'slideId')->textInput(['readOnly' => true]) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'file')->fileInput()?>
+
+    <?= $form->field($model, 'caption')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'updated_at')->textInput() ?>
 

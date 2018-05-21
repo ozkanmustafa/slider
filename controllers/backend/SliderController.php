@@ -2,79 +2,44 @@
 
 namespace kouosl\slider\controllers\backend;
 
-use kouosl\slider\models\SliderData;
-use kouosl\slider\models\UploadImage;
 use Yii;
 use kouosl\slider\models\Slider;
+use kouosl\slider\models\Slide;
 use kouosl\slider\models\SliderSearch;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UnauthorizedHttpException;
-use yii\web\Session;
-use yii\web\UploadedFile;
-use yii\filters\AccessControl;
-use yii\data\ActiveDataProvider;
+
 /**
  * SliderController implements the CRUD actions for Slider model.
  */
-class SliderController extends DefaultController
+class SliderController extends Controller
 {
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['index', 'view','create','delete','update'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'view','create','delete','update'],
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    //'delete' => ['post'],
+                    'delete' => ['POST'],
                 ],
             ],
         ];
-      
-    }
-    public function init(){
-    	parent::init();
-    }
-
-    public function actionSlider(){
-        $provider = new ActiveDataProvider([
-            'query' => Slider::find(),
-            'pagination' => [
-                'pagesize' => 2,
-            ],
-        ]);
-        return $this->render('_slider', [
-            'dataProvider' => $provider,
-        ]);
-    }
-    public function actionIndex()
-    {
-        return $this->actionManage();
     }
 
     /**
      * Lists all Slider models.
      * @return mixed
      */
-    public function actionManage()
+    public function actionIndex()
     {
-    	
-
-    	
         $searchModel = new SliderSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('_manage', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -84,14 +49,19 @@ class SliderController extends DefaultController
      * Displays a single Slider model.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-
-    	
-        return $this->render('_view', [
+        /*return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);
+        ]);*/
+        if (!Yii::$app->session->getIsActive()) {
+            Yii::$app->session->open();
+        }
+        Yii::$app->session['viewSliderId'] = $id;
+        Yii::$app->session->close();
+        $this->redirect(array('/slider/slide'));
     }
 
     /**
@@ -101,34 +71,15 @@ class SliderController extends DefaultController
      */
     public function actionCreate()
     {
-
-    	
         $model = new Slider();
 
-        $uploadImage = new UploadImage();
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            $uploadImage->imageFile =  UploadedFile::getInstance($uploadImage, 'imageFile');
-
-            $model->picture = $uploadImage->upload();
-
-            if(!$model->save()){
-
-                yii::$app->session->setFlash('flashMessage', ['type' => 'error', 'message' => Module::t('slider', 'Slider Not Saved' )]);
-
-                return $this->render('_create', ['model' => $model]); // error
-            }
-
-            return $this->redirect(['view', 'id' => $model->id]);
-
-        } else {
-
-            return $this->render('_create', [
-                'model' => $model,
-                'uploadImage' => $uploadImage
-            ]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -136,40 +87,19 @@ class SliderController extends DefaultController
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
-    	
-
-    	
         $model = $this->findModel($id);
 
-
-        $uploadImage = new UploadImage();
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            $uploadImage->imageFile =  UploadedFile::getInstance($uploadImage, 'imageFile');
-
-            if($imageName = $uploadImage->upload())
-                $model->picture = $imageName;
-
-            if(!$model->save()){
-
-                yii::$app->session->setFlash('flashMessage', ['type' => 'error', 'message' => Module::t('slider', 'Slider Not Saved' )]);
-
-                return $this->render('_update', ['model' => $model]); // error
-            }
-
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-
-        } else {
-
-            return $this->render('_update', [
-                'model' => $model,
-                'uploadImage' => $uploadImage
-            ]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -177,22 +107,13 @@ class SliderController extends DefaultController
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
     {
+        $this->findModel($id)->delete();
 
-        SliderData::deleteAll(['slider_id' => $id]);
-
-        $model = $this->findModel($id);
-
-        unlink($model->imagePath);
-
-        $model->delete();
-
-        yii::$app->session->setFlash('flashMessage', ['type' => 'success', 'message' => 'Attemp Başarılı Bir Şekilde Silindi!']);
-
-        return $this->redirect(['manage']);
-
+        return $this->redirect(['index']);
     }
 
     /**
@@ -205,13 +126,17 @@ class SliderController extends DefaultController
     protected function findModel($id)
     {
         if (($model = Slider::findOne($id)) !== null) {
-
             return $model;
-
-        } else {
-
-            throw new NotFoundHttpException('The requested page does not exist.');
-
         }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    protected function findModelSlide($id)
+    {
+        if (($model = Slide::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

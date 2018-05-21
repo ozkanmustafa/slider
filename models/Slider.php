@@ -8,9 +8,12 @@ use Yii;
  * This is the model class for table "slider".
  *
  * @property int $id
- * @property string $title
+ * @property string $name
  * @property string $description
- * @property string $date
+ * @property string $updated_at
+ * @property string $created_at
+ *
+ * @property Slide[] $slides
  */
 class Slider extends \yii\db\ActiveRecord
 {
@@ -28,11 +31,10 @@ class Slider extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'title', 'description', 'date'], 'required'],
-            [['id'], 'integer'],
-            [['title', 'description'], 'string'],
-            [['date'], 'safe'],
-            [['id'], 'unique'],
+            [['name'], 'required'],
+            [['description'], 'string'],
+            [['updated_at', 'created_at'], 'safe'],
+            [['name'], 'string', 'max' => 50],
         ];
     }
 
@@ -43,9 +45,18 @@ class Slider extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
+            'name' => 'Name',
             'description' => 'Description',
-            'date' => 'Date',
+            'updated_at' => 'Updated At',
+            'created_at' => 'Created At',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSlides()
+    {
+        return $this->hasMany(Slide::className(), ['slideId' => 'id']);
     }
 }

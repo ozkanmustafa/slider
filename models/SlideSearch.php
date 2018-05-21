@@ -5,12 +5,12 @@ namespace kouosl\slider\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use kouosl\slider\models\Slider;
+use kouosl\slider\models\Slide;
 
 /**
- * SliderSearch represents the model behind the search form of `kouosl\slider\models\Slider`.
+ * SlideSearch represents the model behind the search form of `kouosl\slider\models\Slide`.
  */
-class SliderSearch extends Slider
+class SlideSearch extends Slide
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class SliderSearch extends Slider
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['name', 'description', 'updated_at', 'created_at'], 'safe'],
+            [['id', 'slideId'], 'integer'],
+            [['imageContent', 'caption', 'updated_at', 'created_at'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class SliderSearch extends Slider
      */
     public function search($params)
     {
-        $query = Slider::find();
+        $query = Slide::find();
 
         // add conditions that should always apply here
 
@@ -60,12 +60,13 @@ class SliderSearch extends Slider
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'slideId' => $this->slideId,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'imageContent', $this->imageContent])
+            ->andFilterWhere(['like', 'caption', $this->caption]);
 
         return $dataProvider;
     }

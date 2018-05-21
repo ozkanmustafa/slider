@@ -59,7 +59,7 @@ class Module extends \kouosl\base\Module
             'sourceLanguage' => 'en-US',
             'basePath' => '@kouosl/slider/messages',
             'fileMap' => [
-                'slider/slider' => 'slider.php',
+                'slider/slider' => 'index.php',
             ],
         ];
     }
