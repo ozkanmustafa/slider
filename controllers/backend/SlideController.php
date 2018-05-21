@@ -98,9 +98,9 @@ class SlideController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             $imageName = $model->caption;
-            FileHelper::createDirectory('uploads');
+            FileHelper::createDirectory('assets/uploads');
             $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs('uploads/'.$imageName.'.'.$model->file->extension);
+            $model->file->saveAs('assets/uploads/'.$imageName.'.'.$model->file->extension);
             
             $model->imageContent ='uploads/'.$imageName.'.'.$model->file->extension;
 
@@ -179,7 +179,7 @@ class SlideController extends Controller
         $data = array();
         $models = $this->findAll($id);
         foreach($models as $model) {
-                $data[] = array('content' => Html::img(Yii::$app->getUrlManager()->getBaseUrl().'/'.$model->imageContent),
+                $data[] = array('content' => Html::img(Yii::$app->getUrlManager()->getBaseUrl().'/assets/'.$model->imageContent),
                 'caption' => $model->caption,'imageOptions' => 'width => 200');
     
         }

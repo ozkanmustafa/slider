@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\bootstrap\Carousel;
 
-
 /* @var $this yii\web\View */
 /* @var $searchModel kouosl\slider\models\SlideSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -29,19 +28,17 @@ $items = array();
             'caption'=>Html::encode($record['caption']),
         );
     },$dataProvider->getModels())))?-->
-    
 
+    <!--  'style' => 'border:1px solid black;text-align:center;padding:5px;' -->
     
     <?php
         echo Carousel::widget([
-        'options' => [
-            'style' => [
-                'margin: 60px auto;
-                position:relative;
-                clear:both;
-                overflow:hidden;'
+            'options' => ['class' => 'carousel slide', 'data-interval' => '3000', 
+                'style' => 'width:400px;height:auto;'
+                
             ],
-        ],
-        'items' => $data
+            'items' => $data,
+            'controls' => [ '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>',
+                '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>' ]
     ]);?>
 </div>

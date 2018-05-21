@@ -14,8 +14,5 @@
         "psr-4": {
             "kouosl\\slider\\": ""
         }
-    },
-	"require": {
-		"powerkernel/yii2-fineuploader": "*"
-	}
+    }
 }
