@@ -6,6 +6,7 @@ use Yii;
 use kouosl\slider\models\Slider;
 use kouosl\slider\models\Slide;
 use kouosl\slider\models\SliderSearch;
+use kouosl\slider\models\SlideSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -111,6 +112,8 @@ class SliderController extends Controller
      */
     public function actionDelete($id)
     {
+        //Önce hata vermemesi için slide'ları siliyoruz.
+        Slide::deleteAll(['slideId' => $id]);
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -131,9 +134,11 @@ class SliderController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    protected function findModelSlide($id)
+    
+    protected function findAllSlide($id)
     {
-        if (($model = Slide::findOne($id)) !== null) {
+        $model = Slide::find()->where(['slideId' => $id])->all();
+        if ($model !== null) {
             return $model;
         }
 

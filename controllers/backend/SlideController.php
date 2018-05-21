@@ -97,7 +97,7 @@ class SlideController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            $imageName = $model->caption;
+            $imageName = $this->randomString(10);
             FileHelper::createDirectory('assets/uploads');
             $model->file = UploadedFile::getInstance($model, 'file');
             $model->file->saveAs('assets/uploads/'.$imageName.'.'.$model->file->extension);
@@ -186,4 +186,16 @@ class SlideController extends Controller
 
         return $data;
     }
+
+    protected function randomString($length) {
+        $key = '';
+        $keys = array_merge(range(0, 9), range('a', 'z'));
+    
+        for ($i = 0; $i < $length; $i++) {
+            $key .= $keys[array_rand($keys)];
+        }
+    
+        return $key;
+    }
+    
 }
