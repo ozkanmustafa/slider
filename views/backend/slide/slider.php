@@ -34,7 +34,7 @@ $items = array();
     <?php
         echo Carousel::widget([
             'options' => ['class' => 'carousel slide', 'data-interval' => '3000', 
-                'style' => 'width:640px;height:480px;'
+                'style' => ''
                 
             ],
             'items' => $data,
