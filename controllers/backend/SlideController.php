@@ -180,7 +180,7 @@ class SlideController extends Controller
         $models = $this->findAll($id);
         foreach($models as $model) {
                 $data[] = array('content' => Html::img(Yii::$app->getUrlManager()->getBaseUrl().'/assets/'.$model->imageContent),
-                'caption' => $model->caption,'imageOptions' => 'width => 200');
+                'caption' => '<h3>'.$model->caption.'</h3 class="captionText">','imageOptions' => 'width => 200');
     
         }
 

@@ -31,6 +31,26 @@ $items = array();
 
     <!--  'style' => 'border:1px solid black;text-align:center;padding:5px;' -->
     
+    <style>
+        .item{
+        width:100%;
+        height:420px;
+            img{
+                display:none;
+            }
+        }
+    </style>
+    <script>
+        $(".item").each(function() {
+        var img_url = $(this).find('img').attr('src');
+        $(this).css({
+            'background-size': 'cover',
+            'background-image': 'url(' + img_url + ')',
+           'background-position': '50% 50%'
+        });
+        $(this).find('img').hide();
+        });
+    </script>
     <?php
         echo Carousel::widget([
             'options' => ['class' => 'carousel slide', 'data-interval' => '3000', 
