@@ -12,6 +12,7 @@ use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
+use yii\helpers\Url;
 /**
  * SlideController implements the CRUD actions for Slide model.
  */
@@ -98,9 +99,9 @@ class SlideController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             $imageName = $this->randomString(10);
-            FileHelper::createDirectory('assets/uploads');
+            FileHelper::createDirectory('../../data/uploads');
             $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs('assets/uploads/'.$imageName.'.'.$model->file->extension);
+            $model->file->saveAs('../../data/uploads/'.$imageName.'.'.$model->file->extension);
             
             $model->imageContent ='uploads/'.$imageName.'.'.$model->file->extension;
 
@@ -125,6 +126,15 @@ class SlideController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $imageName = $this->randomString(10);
+            FileHelper::createDirectory('assets/uploads');
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $model->file->saveAs('../../data/uploads/'.$imageName.'.'.$model->file->extension);
+            
+            $model->imageContent ='uploads/'.$imageName.'.'.$model->file->extension;
+
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -179,7 +189,7 @@ class SlideController extends Controller
         $data = array();
         $models = $this->findAll($id);
         foreach($models as $model) {
-                $data[] = array('content' => Html::img(Yii::$app->getUrlManager()->getBaseUrl().'/assets/'.$model->imageContent),
+                $data[] = array('content' => Html::img(Url::to('/data/', true).$model->imageContent),
                 'caption' => '<h3>'.$model->caption.'</h3 class="captionText">','imageOptions' => 'width => 200');
     
         }

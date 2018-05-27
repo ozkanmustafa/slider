@@ -16,10 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Slide', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('View Slider', ['slider', 'id'=>$id], [
-            'class' => 'btn btn-success',
-        ]); ?>
+        <?= Html::a('Create Slide', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('View Slider', ['slider', 'id'=>$id], ['class' => 'btn btn-success',]); ?>
+        <?= Html::a('Home Page', ['/slider/slider'], ['class' => 'btn btn-danger']) ?>
     </p>
 
     <?= GridView::widget([

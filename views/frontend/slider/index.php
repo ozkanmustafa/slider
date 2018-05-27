@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\bootstrap\Carousel;
-use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel kouosl\slider\models\SlideSearch */
@@ -13,7 +12,7 @@ $this->title = 'Slider';
 $this->params['breadcrumbs'][] = $this->title;
 $items = array();
 ?>
-<div class="slide-slider">
+<div class="slider-index">
 
     <h1><?= Html::encode($this->title); ?></h1>
 
@@ -33,6 +32,9 @@ $items = array();
     <!--  'style' => 'border:1px solid black;text-align:center;padding:5px;' -->
     
     <style>
+        .slide{
+            margin-bottom:20px;
+        }
         .item{
         width:100%;
         height:420px;
@@ -52,14 +54,17 @@ $items = array();
         $(this).find('img').hide();
         });
     </script>
-    <?php
-        echo Carousel::widget([
-            'options' => ['class' => 'carousel slide', 'data-interval' => '3000', 
-                'style' => ''
-                
-            ],
-            'items' => $data,
-            'controls' => [ '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>',
-                '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>' ]
-    ]);?>
+    <?php 
+        foreach($models as $model){
+            echo Carousel::widget([
+                'options' => ['class' => 'carousel slide', 'data-interval' => '3000', 
+                    'style' => ''
+                    
+                ],
+                'items' => $model,
+                'controls' => [ '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>',
+                    '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>' ]
+        ]);
+        }
+    ?>
 </div>
