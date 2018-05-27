@@ -59,4 +59,4 @@ Modulün **index** sayfasından **Create Slider** butonuna tıklayarak açılan 
 
 ## Diğer Modüller Ve Proje Hakkında Bilgi
 
-github.com/kouosl/portal
+[github.com/kouosl/portal](https://github.com/kouosl/portal)
