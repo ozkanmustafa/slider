@@ -43,19 +43,26 @@ yapıştırın. Daha sonra proje klasörünün olduğu dizinde bir komut satır�
 
   
 
-> php yii migrate
-
-  
+>php yii migrate --migrationPath=@vendor/kouosl/slider/migrations --interactive=0
 
 komutu ile veri tabanını oluşturun.
 
+**Portal/Backend/config** ve **Portal/Frontend/config** dizinleri altındaki `main.php`
+içine 
+
+> 'modules' => [
+       'slider' => [
+			'class' => 'kouosl\slider\Module',
+		],
+
+eklemelerini yapın.
   
 
 ## Slider Oluşturma
 
   
 
-Modulün **index** sayfasından **Create Slider** butonuna tıklayarak açılan sayfadan yeni bir slider oluşturulabilir. Daha sonra **view** kısmından sliderın içerik sayfasına gidilip oradan yeni resimler eklenebilir. Bu kısımda **update** ve **delete** işlemi de yapabilirsiniz.
+Modulün **index** sayfasından **Create Slider** butonuna tıklayarak açılan sayfadan yeni bir slider oluşturulabilir. Daha sonra **view** kısmından sliderın içerik sayfasına gidilip oradan yeni resimler eklenebilir. Bu kısımda **update** ve **delete** işlemi de yapabilirsiniz. Oluşturulan sliderları **view slider** butonundan anında görebilir veya **frontend/slider** sayfasından tamamına erişim sağlayabilirsiniz.
 
 ## Diğer Modüller Ve Proje Hakkında Bilgi
 
