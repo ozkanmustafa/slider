@@ -35,7 +35,7 @@ Projenizin ana klasörünün altında bulunan `composer.json` adlı dosyayı aç
 
   
 
-> "{Proje ismi}/slider": "dev-master"
+> "kouosl/slider": "dev-master"
 
   
 
